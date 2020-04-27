@@ -21,3 +21,23 @@
            팀원1: 게임 프레임워크, 플레이어 유닛
 
            팀원2: 적 일반 유닛, 적 보스, 기타 컨텐츠
+
+
+--------------------------------------------------------------------------------- 4/27
+게임에 사용할 리소스는 드래곤플라이트 혹은 1942게임의 비트맵리소스를 구해서 사용해볼 예정
+게임 조작은 설정을 통해 중력센서를 사용하거나 화면 하단에 컨트롤 패널을 만들어서 유저가 골라서 사용할 수 있도록 한다.
+
+대략적인 클래스 구성
+Player(Plane) Class: 플레이어 비행기의 객체 정보
+Enemy Class: 적 유닛 객체 정보
+BossEnemy Class: 적 보스 유닛 객체 정보
+FrameAnimationManager Class: 비트맵 애니메이션 관리 클래스
+Collision Class: 충돌처리 클래스
+Missile Class: 미사일 클래스
+GameScene Class: 게임오브젝트들을 관리하고 화면에 그려주는 클래스
+RecycleObject Class: 오브젝트 재활용을 담당할 클래스
+Sound Class: 사운드 담당할 클래스
+
+![class](https://user-images.githubusercontent.com/48274155/80374650-f0efa100-88d1-11ea-8f6b-94de32596c88.png)
+
+![ui](https://user-images.githubusercontent.com/48274155/80374781-2f855b80-88d2-11ea-8da6-aa9919b76063.png)
