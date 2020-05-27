@@ -1,4 +1,4 @@
-package kr.kpu.game.Andgp2015184024.termproject;
+package kr.kpu.game.Andgp2015184024.termproject.res.bitmap;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

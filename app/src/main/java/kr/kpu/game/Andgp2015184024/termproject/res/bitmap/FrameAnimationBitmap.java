@@ -1,4 +1,5 @@
-package kr.kpu.game.Andgp2015184024.termproject;
+//package kr.ac.kpu.game.scgyong.blocksamplee.res.bitmap;
+package kr.kpu.game.Andgp2015184024.termproject.res.bitmap;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -6,7 +7,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import kr.kpu.game.Andgp2015184024.termproject.util.IndexTimer;
+
 public class FrameAnimationBitmap {
+
     private static final String TAG = FrameAnimationBitmap.class.getSimpleName();
     private SharedBitmap sbmp;
     private int frameWidth;
@@ -15,6 +19,7 @@ public class FrameAnimationBitmap {
     private Rect srcRect = new Rect();
     private RectF dstRect = new RectF();
     private IndexTimer indexTimer;
+
 
     public FrameAnimationBitmap(int resId, int framesPerSecond, int frameCount) {
         this.sbmp = SharedBitmap.load(resId);

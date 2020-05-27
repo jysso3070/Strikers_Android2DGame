@@ -1,4 +1,4 @@
-package kr.kpu.game.Andgp2015184024.termproject;
+package kr.kpu.game.Andgp2015184024.termproject.game.framework;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,20 +6,20 @@ import java.util.HashMap;
 public class RecyclePool {
     private HashMap<Class, ArrayList<Object>> map = new HashMap<>();
 
-    public RecyclePool(){
-
+    public RecyclePool() {
     }
+
     public void add(Object obj){
         Class clazz = obj.getClass();
-        ArrayList<Object> list = map.get(clazz);
+    ArrayList<Object> list = map.get(clazz);
         if(list == null){
-            list = new ArrayList<>();
-            map.put(clazz, list);
-        }
-        list.add(obj);
+        list = new ArrayList<>();
+        map.put(clazz, list);
     }
+        list.add(obj);
+}
 
-    public Object get(Class clazz){
+    public  Object get(Class clazz){
         ArrayList<Object> list = map.get(clazz);
         if(list == null){
             return null;

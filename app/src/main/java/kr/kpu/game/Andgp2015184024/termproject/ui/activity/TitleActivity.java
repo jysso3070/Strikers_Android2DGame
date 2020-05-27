@@ -1,11 +1,13 @@
-package kr.kpu.game.Andgp2015184024.termproject;
-
-import androidx.appcompat.app.AppCompatActivity;
+package kr.kpu.game.Andgp2015184024.termproject.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import kr.kpu.game.Andgp2015184024.termproject.R;
 
 public class TitleActivity extends AppCompatActivity {
 
@@ -15,6 +17,7 @@ public class TitleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
+        Log.d(TAG, "onCreate()");
     }
 
     protected void onPause(){
@@ -26,13 +29,14 @@ public class TitleActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void onBtnHighscore(View view) {
-
+    public void onBtnStart(View view) {
+        Log.d(TAG, "onBtnStart()");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
-    public void onBtnStart(View view) {
-        Log.d(TAG, "onBtnStart");
-        Intent intent = new Intent(this, MainActivity.class);
+    public void onBtnHighscore(View view) {
+        Intent intent = new Intent(this, HighscoreActivity.class);
         startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package kr.kpu.game.Andgp2015184024.termproject.iface;
+package kr.kpu.game.Andgp2015184024.termproject.game.iface;
 
 import android.graphics.Canvas;
 
