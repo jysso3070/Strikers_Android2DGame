@@ -17,6 +17,7 @@ import kr.kpu.game.Andgp2015184024.termproject.game.obj.Ball;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.EnemyGenerator;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Fighter;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Joystick;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.MyPlane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Plane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScoreObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.bg.ImageScrollBackground;
@@ -34,6 +35,7 @@ public class MainWorld extends GameWorld {
     private ScoreObject highScoreObject;
     private PlayState playState = PlayState.normal;
     private Joystick joystick;
+    private MyPlane myPlane;
 
     public static void create() {
         if(singleton != null){
@@ -71,30 +73,31 @@ public class MainWorld extends GameWorld {
             float dy = (float) (rand.nextFloat() *50.0 - 25.0);
             add(Layer.missile, new Ball(x, y ,dx, dy));
         }
-        float playerY = rect.bottom - 100;
-        plane = new Plane(500, playerY, 0.0f, 0.0f);
-        add(Layer.player, plane);
-        fighter = new Fighter(200, 700);
-        add(Layer.player, fighter);
 
-        scoreObject = new ScoreObject(800, 100, R.mipmap.number_64x84);
-        add(Layer.ui, scoreObject);
-        highScoreObject = new ScoreObject(800, 100, R.mipmap.number_24x32);
-        add(Layer.ui, highScoreObject);
+        myPlane = new MyPlane(500, rect.bottom-100);
+        add(Layer.player, myPlane);
+//        float playerY = rect.bottom - 100;
+//        plane = new Plane(500, playerY, 0.0f, 0.0f);
+//        add(Layer.player, plane);
+//        fighter = new Fighter(200, 700);
+//        add(Layer.player, fighter);
 
-//        add(Layer.bg, new ImageScrollBackground(R.mipmap.bg_city,
-//                ImageScrollBackground.Orientation.vertical, 25));
-        add(Layer.bg, new TileScrollBackground(R.raw.earth,
-                TileScrollBackground.Orientation.vertical, -25));
-        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
-                ImageScrollBackground.Orientation.vertical, 100));
-//        scorePaint.setTextSize(100);
-//        scorePaint.setColor(Color.BLACK);
-//        scoreAnimator = ObjectAnimator.ofInt(this, "scoreDisplay", 0);
-        joystick = new Joystick(300, rect.bottom - 400, Joystick.Direction.normal, 100);
-        add(Layer.ui, joystick);
+//        scoreObject = new ScoreObject(800, 100, R.mipmap.number_64x84);
+//        add(Layer.ui, scoreObject);
+//        highScoreObject = new ScoreObject(800, 100, R.mipmap.number_24x32);
+//        add(Layer.ui, highScoreObject);
 
-        plane.setJoystick(joystick);
+        add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
+                ImageScrollBackground.Orientation.vertical, 25));
+//        add(Layer.bg, new TileScrollBackground(R.raw.earth,
+//                TileScrollBackground.Orientation.vertical, -25));
+//        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
+//                ImageScrollBackground.Orientation.vertical, 100));
+
+//        joystick = new Joystick(300, rect.bottom - 400, Joystick.Direction.normal, 100);
+//        add(Layer.ui, joystick);
+//
+//        plane.setJoystick(joystick);
         startGame();
     }
 
@@ -107,11 +110,11 @@ public class MainWorld extends GameWorld {
 
     private void startGame() {
         playState = PlayState.normal;
-        scoreObject.reset();
+//        scoreObject.reset();
 
         SharedPreferences prefs = view.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         int highScore = prefs.getInt(PREF_KEY_HIGHSCORE, 0);
-        highScoreObject.setScore(highScore);
+//        highScoreObject.setScore(highScore);
 
     }
 
@@ -130,14 +133,14 @@ public class MainWorld extends GameWorld {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        joystick.onTouchEvent(event);
+//        joystick.onTouchEvent(event);
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
             if(playState == PlayState.gameOver){
                 startGame();
                 return false;
             }
-            doAction();
+//            doAction();
 //            plane.head(event.getX(), event.getY());
         } else if(action == MotionEvent.ACTION_MOVE){
 //            plane.head(event.getX(), event.getY());
@@ -161,7 +164,7 @@ public class MainWorld extends GameWorld {
             return;
         }
 
-        enemyGenerator.update();
+//        enemyGenerator.update();
     }
 
     @Override
