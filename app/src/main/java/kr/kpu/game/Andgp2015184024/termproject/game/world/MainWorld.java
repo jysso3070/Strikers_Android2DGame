@@ -134,6 +134,9 @@ public class MainWorld extends GameWorld {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 //        joystick.onTouchEvent(event);
+        System.out.println(event.getX() + ", " + event.getY());
+        GameWorld gw = GameWorld.get();
+        myPlane.move(event.getX(), event.getY());
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
             if(playState == PlayState.gameOver){
