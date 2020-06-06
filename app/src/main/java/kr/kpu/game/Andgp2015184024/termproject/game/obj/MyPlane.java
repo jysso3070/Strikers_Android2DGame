@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
+import kr.kpu.game.Andgp2015184024.termproject.game.sensor.GyroSensor;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.FrameAnimationBitmap;
 
@@ -15,6 +16,7 @@ public class MyPlane implements GameObject {
     private final int halfSize;
     private final int height;
     private final int width;
+    private GyroSensor gyroSensor;
     private float x;
     private float y;
     private long lastFire;
@@ -22,6 +24,11 @@ public class MyPlane implements GameObject {
     private int gwTop;
     private int gwLeft;
     private int gwRight;
+
+    private boolean gyroOn = false;
+    private static final int G_SPEED = 50;
+    private float dx;
+    private float dy;
 
     public MyPlane(float x, float y){
         GameWorld gw = GameWorld.get();
@@ -35,6 +42,10 @@ public class MyPlane implements GameObject {
         gwBottom = gw.getBottom();
         gwLeft = gw.getLeft();
         gwRight = gw.getRight();
+        if(gyroOn){
+            gyroSensor = GyroSensor.get();
+            gyroSensor.reset();
+        }
     }
 
     @Override
@@ -42,9 +53,20 @@ public class MyPlane implements GameObject {
         MainWorld gw = MainWorld.get();
         long now = gw.getCurrentTimeNanos();
         long elapsed = now - lastFire;
-        if(elapsed > BULLET_FIRE_INTERVAL_NSEC){
+        if(elapsed > BULLET_FIRE_INTERVAL_NSEC) {
             fire();
             lastFire = now;
+        }
+        if(gyroOn){
+            float seconds = GameWorld.get().getTimeDiffInSecond();
+            this.dx = gyroSensor.getPitchDegree() * G_SPEED;
+            this.dy = gyroSensor.getRollDegree() * G_SPEED;
+            this.x += dx * seconds;
+            this.y += dy * seconds;
+            if(y < gwTop + this.height/2){ this.y = gwTop + this.width;}
+            if(y > gwBottom - height/2 ){this.y = gwBottom - height/2;}
+            if(x < gwLeft + this.width/2){this.x = gwLeft + this.width/2;}
+            if(x > gwRight - this.width/2){this.x = gwRight - this.width/2;}
         }
 
     }

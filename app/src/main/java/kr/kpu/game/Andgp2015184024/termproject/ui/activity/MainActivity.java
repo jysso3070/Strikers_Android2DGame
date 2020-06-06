@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import kr.kpu.game.Andgp2015184024.termproject.game.sensor.GyroSensor;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.sound.SoundEffects;
 import kr.kpu.game.Andgp2015184024.termproject.ui.view.GameView;
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
+        GyroSensor.get().setActivity(this);
+        GyroSensor.get().connetSensor();
+
         MainWorld.create();
         gameView = new GameView(this);
         setContentView(gameView);
