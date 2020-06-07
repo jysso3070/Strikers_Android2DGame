@@ -120,6 +120,10 @@ public class MainWorld extends GameWorld {
         int highScore = prefs.getInt(PREF_KEY_HIGHSCORE, 0);
 //        highScoreObject.setScore(highScore);
 
+        SharedPreferences gyroPrefs = view.getContext().getSharedPreferences("gyroPrefs", Context.MODE_PRIVATE);
+        boolean gyroOn = gyroPrefs.getBoolean("gyroSensorOn", false);
+        myPlane.setGyro(gyroOn);
+
     }
 
     public void endGame() {

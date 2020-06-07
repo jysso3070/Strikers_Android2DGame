@@ -1,5 +1,7 @@
 package kr.kpu.game.Andgp2015184024.termproject.game.obj;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 
 import kr.kpu.game.Andgp2015184024.termproject.R;
@@ -27,7 +29,6 @@ public class MyPlane implements GameObject {
     private Joystick joystick;
     private static final int M_SPEED = 500;
 
-
     private boolean gyroOn = false;
     private static final int G_SPEED = 50;
     private float dx;
@@ -47,6 +48,7 @@ public class MyPlane implements GameObject {
         gwBottom = gw.getBottom();
         gwLeft = gw.getLeft();
         gwRight = gw.getRight();
+
         if(gyroOn){
             gyroSensor = GyroSensor.get();
             gyroSensor.reset();
@@ -129,5 +131,13 @@ public class MyPlane implements GameObject {
 
     public void setJoystick(Joystick joystick) {
         this.joystick = joystick;
+    }
+
+    public void setGyro(boolean gyroOn) {
+        if(gyroOn){
+            this.gyroOn = true;
+            gyroSensor = GyroSensor.get();
+            gyroSensor.reset();
+        }
     }
 }
