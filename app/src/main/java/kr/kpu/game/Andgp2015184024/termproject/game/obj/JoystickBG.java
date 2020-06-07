@@ -8,9 +8,9 @@ import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.SharedBitmap;
 
-public class Joystick implements GameObject {
+public class JoystickBG implements GameObject {
 
-    private static final String TAG = Joystick.class.getSimpleName();
+    private static final String TAG = JoystickBG.class.getSimpleName();
     private SharedBitmap sbmp;
     private final float x, y;
     private final int size;
@@ -23,12 +23,12 @@ public class Joystick implements GameObject {
     public enum Direction {
         normal, horizontal, vertical
     }
-    public Joystick(float x, float y, Direction dir, int size) {
+    public JoystickBG(float x, float y, Direction dir, int size) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.direction = dir;
-        this.sbmp = SharedBitmap.load(R.mipmap.stick);
+        this.sbmp = SharedBitmap.load(R.mipmap.joystick);
         this.down = false;
     }
 

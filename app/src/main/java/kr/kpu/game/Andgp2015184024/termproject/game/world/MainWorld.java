@@ -17,6 +17,7 @@ import kr.kpu.game.Andgp2015184024.termproject.game.obj.Ball;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.EnemyGenerator;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Fighter;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Joystick;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.JoystickBG;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.MyPlane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Plane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScoreObject;
@@ -36,6 +37,7 @@ public class MainWorld extends GameWorld {
     private PlayState playState = PlayState.normal;
     private Joystick joystick;
     private MyPlane myPlane;
+    private JoystickBG joystickback;
 
     public static void create() {
         if(singleton != null){
@@ -94,8 +96,10 @@ public class MainWorld extends GameWorld {
 //        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
 //                ImageScrollBackground.Orientation.vertical, 100));
 
-//        joystick = new Joystick(300, rect.bottom - 400, Joystick.Direction.normal, 100);
-//        add(Layer.ui, joystick);
+        joystickback = new JoystickBG(300, rect.bottom - 400, JoystickBG.Direction.normal, 100);
+        add(Layer.ui, joystickback);
+        joystick = new Joystick(300, rect.bottom - 400, Joystick.Direction.normal, 100);
+        add(Layer.ui, joystick);
 //
 //        plane.setJoystick(joystick);
         startGame();
@@ -133,10 +137,10 @@ public class MainWorld extends GameWorld {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        joystick.onTouchEvent(event);
-        System.out.println(event.getX() + ", " + event.getY());
-        GameWorld gw = GameWorld.get();
-        myPlane.move(event.getX(), event.getY());
+        joystick.onTouchEvent(event);
+//        System.out.println(event.getX() + ", " + event.getY());
+//        GameWorld gw = GameWorld.get();
+//        myPlane.move(event.getX(), event.getY());
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
             if(playState == PlayState.gameOver){
