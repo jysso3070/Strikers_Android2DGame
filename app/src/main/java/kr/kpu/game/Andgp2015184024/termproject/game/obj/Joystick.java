@@ -19,6 +19,15 @@ public class Joystick implements GameObject {
     private float xDown, yDown;
     private float dx, dy;
     private double angle;
+    private double agl;
+
+    public Double getAngle() {
+        return this.angle;
+    }
+
+    public boolean getJoystickDown(){
+        return  this.down;
+    }
 
     public enum Direction {
         normal, horizontal, vertical
@@ -41,7 +50,8 @@ public class Joystick implements GameObject {
     public void draw(Canvas canvas) {
         sbmp.draw(canvas, x, y);
         if (down) {
-            Log.d(TAG, "angle = " + angle + " dx=" + dx + " dy=" + dy);
+//            Log.d(TAG, "angle = " + angle + " dx=" + dx + " dy=" + dy);
+            System.out.println("anlgle" + angle);
             sbmp.draw(canvas, x + dx, y + dy);
         }
     }
@@ -92,7 +102,7 @@ public class Joystick implements GameObject {
         }
         this.dx = dx;
         this.dy = dy;
-        this.angle = Math.atan2(dy, dx);
+        this.angle = Math.atan2(dy, dx) * 180 / Math.PI;
 //        Log.d(TAG, "angle = " + angle + " dx=" + dx + " dy=" + dy);
     }
 

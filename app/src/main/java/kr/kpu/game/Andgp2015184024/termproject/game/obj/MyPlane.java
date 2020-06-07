@@ -24,11 +24,16 @@ public class MyPlane implements GameObject {
     private int gwTop;
     private int gwLeft;
     private int gwRight;
+    private Joystick joystick;
+    private static final int M_SPEED = 500;
+
 
     private boolean gyroOn = false;
     private static final int G_SPEED = 50;
     private float dx;
     private float dy;
+    private Double stickAngle;
+    private boolean JoystickDown;
 
     public MyPlane(float x, float y){
         GameWorld gw = GameWorld.get();
@@ -63,12 +68,42 @@ public class MyPlane implements GameObject {
             this.dy = gyroSensor.getRollDegree() * G_SPEED;
             this.x += dx * seconds;
             this.y += dy * seconds;
-            if(y < gwTop + this.height/2){ this.y = gwTop + this.width;}
-            if(y > gwBottom - height/2 ){this.y = gwBottom - height/2;}
-            if(x < gwLeft + this.width/2){this.x = gwLeft + this.width/2;}
-            if(x > gwRight - this.width/2){this.x = gwRight - this.width/2;}
         }
+        this.stickAngle = joystick.getAngle();
+        this.JoystickDown = joystick.getJoystickDown();
+        moveByJoystick();
 
+
+        if(y < gwTop + this.height/2){ this.y = gwTop + this.width;}
+        if(y > gwBottom - height/2 ){this.y = gwBottom - height/2;}
+        if(x < gwLeft + this.width/2){this.x = gwLeft + this.width/2;}
+        if(x > gwRight - this.width/2){this.x = gwRight - this.width/2;}
+    }
+
+    private void moveByJoystick() {
+        if(!this.JoystickDown){return;}
+        float seconds = GameWorld.get().getTimeDiffInSecond();
+        if(stickAngle >= -112.5 && stickAngle < -67.5) { // up
+            this.y -= M_SPEED * seconds;
+        } else if(stickAngle >= -67.5 && stickAngle < -22.5){ // up right
+            this.x += (M_SPEED * seconds) / Math.sqrt(2);
+            this.y -= (M_SPEED * seconds) / Math.sqrt(2);
+        } else if(stickAngle >= -22.5 && stickAngle < 22.5){ // right
+            this.x += M_SPEED * seconds;
+        } else if(stickAngle >= 22.5 && stickAngle < 67.5){ // down right
+            this.x += (M_SPEED * seconds) / Math.sqrt(2);
+            this.y += (M_SPEED * seconds) / Math.sqrt(2);
+        } else if(stickAngle >= 67.5 && stickAngle < 112.5){ // down
+            this.y += M_SPEED * seconds;
+        } else if(stickAngle >= 112.5 && stickAngle< 157.5){ // down left
+            this.x -= (M_SPEED * seconds) / Math.sqrt(2);
+            this.y += (M_SPEED * seconds) / Math.sqrt(2);
+        } else if( (stickAngle >= 157.5 && stickAngle <= 180) || (stickAngle >= -180 && stickAngle < -157.5) ){ // left
+            this.x -= M_SPEED * seconds;
+        } else if(stickAngle >= -157.5 && stickAngle < -112.5){ // up left
+            this.x -= (M_SPEED * seconds) / Math.sqrt(2);
+            this.y -= (M_SPEED * seconds) / Math.sqrt(2);
+        }
     }
 
     private void fire() {
@@ -90,5 +125,9 @@ public class MyPlane implements GameObject {
         if(y > gwBottom - height/2 ){this.y = gwBottom - height/2;}
         if(x < gwLeft + this.width/2){this.x = gwLeft + this.width/2;}
         if(x > gwRight - this.width/2){this.x = gwRight - this.width/2;}
+    }
+
+    public void setJoystick(Joystick joystick) {
+        this.joystick = joystick;
     }
 }

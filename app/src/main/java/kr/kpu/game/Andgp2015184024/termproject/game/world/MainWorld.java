@@ -75,9 +75,6 @@ public class MainWorld extends GameWorld {
             float dy = (float) (rand.nextFloat() *50.0 - 25.0);
             add(Layer.missile, new Ball(x, y ,dx, dy));
         }
-
-        myPlane = new MyPlane(500, rect.bottom-100);
-        add(Layer.player, myPlane);
 //        float playerY = rect.bottom - 100;
 //        plane = new Plane(500, playerY, 0.0f, 0.0f);
 //        add(Layer.player, plane);
@@ -89,19 +86,22 @@ public class MainWorld extends GameWorld {
 //        highScoreObject = new ScoreObject(800, 100, R.mipmap.number_24x32);
 //        add(Layer.ui, highScoreObject);
 
-        add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
-                ImageScrollBackground.Orientation.vertical, 25));
+
 //        add(Layer.bg, new TileScrollBackground(R.raw.earth,
 //                TileScrollBackground.Orientation.vertical, -25));
 //        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
 //                ImageScrollBackground.Orientation.vertical, 100));
 
-        joystickback = new JoystickBG(300, rect.bottom - 400, JoystickBG.Direction.normal, 100);
+        add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
+                ImageScrollBackground.Orientation.vertical, 25));
+        myPlane = new MyPlane(500, rect.bottom-100);
+        add(Layer.player, myPlane);
+        joystickback = new JoystickBG(rect.right - 400, rect.bottom - 400, JoystickBG.Direction.normal, 100);
         add(Layer.ui, joystickback);
-        joystick = new Joystick(300, rect.bottom - 400, Joystick.Direction.normal, 100);
+        joystick = new Joystick(rect.right - 400, rect.bottom - 400, Joystick.Direction.normal, 100);
         add(Layer.ui, joystick);
-//
-//        plane.setJoystick(joystick);
+        myPlane.setJoystick(joystick);
+
         startGame();
     }
 
