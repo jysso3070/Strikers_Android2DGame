@@ -1,6 +1,7 @@
 package kr.kpu.game.Andgp2015184024.termproject.game.obj;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -48,11 +49,13 @@ public class Joystick implements GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        sbmp.draw(canvas, x, y);
+        Paint paint = new Paint();
+        paint.setAlpha(150);
+        sbmp.draw(canvas, x, y, paint);
         if (down) {
 //            Log.d(TAG, "angle = " + angle + " dx=" + dx + " dy=" + dy);
             System.out.println("anlgle" + angle);
-            sbmp.draw(canvas, x + dx, y + dy);
+            sbmp.draw(canvas, x + dx, y + dy, paint);
         }
     }
 
