@@ -14,6 +14,7 @@ import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Ball;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.Enemy;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.EnemyGenerator;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Fighter;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Joystick;
@@ -38,6 +39,7 @@ public class MainWorld extends GameWorld {
     private Joystick joystick;
     private MyPlane myPlane;
     private JoystickBG joystickback;
+    private Enemy myEnemy;
 
     public static void create() {
         if(singleton != null){
@@ -75,6 +77,7 @@ public class MainWorld extends GameWorld {
             float dy = (float) (rand.nextFloat() *50.0 - 25.0);
             add(Layer.missile, new Ball(x, y ,dx, dy));
         }
+
 //        float playerY = rect.bottom - 100;
 //        plane = new Plane(500, playerY, 0.0f, 0.0f);
 //        add(Layer.player, plane);
@@ -101,6 +104,9 @@ public class MainWorld extends GameWorld {
         joystick = new Joystick(rect.right - 400, rect.bottom - 400, Joystick.Direction.normal, 100);
         add(Layer.ui, joystick);
         myPlane.setJoystick(joystick);
+
+        // Enemy
+
 
         startGame();
     }
@@ -175,7 +181,7 @@ public class MainWorld extends GameWorld {
             return;
         }
 
-//        enemyGenerator.update();
+        enemyGenerator.update();
     }
 
     @Override
