@@ -14,6 +14,7 @@ import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Ball;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.Boss;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Enemy;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.EnemyGenerator;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Fighter;
@@ -39,7 +40,7 @@ public class MainWorld extends GameWorld {
     private Joystick joystick;
     private MyPlane myPlane;
     private JoystickBG joystickback;
-    private Enemy myEnemy;
+    private Boss boss;
 
     public static void create() {
         if(singleton != null){
@@ -69,14 +70,15 @@ public class MainWorld extends GameWorld {
     public void initObjects() {
         Resources res = view.getResources();
 //        objects = new ArrayList<>();
-        Random rand = new Random();
-        for(int i = 0; i < BALL_COUNT; i++){
-            float x = rand.nextFloat() * 1000;
-            float y = rand.nextFloat() * 1000;
-            float dx = (float) (rand.nextFloat() * 50.0 - 25.0);
-            float dy = (float) (rand.nextFloat() *50.0 - 25.0);
-            add(Layer.missile, new Ball(x, y ,dx, dy));
-        }
+
+//        Random rand = new Random();
+//        for(int i = 0; i < BALL_COUNT; i++){
+//            float x = rand.nextFloat() * 1000;
+//            float y = rand.nextFloat() * 1000;
+//            float dx = (float) (rand.nextFloat() * 50.0 - 25.0);
+//            float dy = (float) (rand.nextFloat() *50.0 - 25.0);
+//            add(Layer.missile, new Ball(x, y ,dx, dy));
+//        }
 
 //        float playerY = rect.bottom - 100;
 //        plane = new Plane(500, playerY, 0.0f, 0.0f);
@@ -105,8 +107,9 @@ public class MainWorld extends GameWorld {
         add(Layer.ui, joystick);
         myPlane.setJoystick(joystick);
 
-        // Enemy
-
+        // Boss Monster
+        boss = new Boss((rect.right / 2) - 200, 50);
+        add(Layer.enemy, boss);
 
         startGame();
     }
