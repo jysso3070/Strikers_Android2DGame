@@ -112,6 +112,7 @@ public class MyPlane implements GameObject, BoxCollidable {
             if( CollisionHelper.collides(enemyMissile, this)){
 //                gw.endGame();
                 Log.e(TAG, "object collision with enemyMissile: " + em);
+                gw.decreaseMyHp();
                 break;
             }
         }

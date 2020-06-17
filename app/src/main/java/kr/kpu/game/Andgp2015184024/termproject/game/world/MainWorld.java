@@ -18,6 +18,7 @@ import kr.kpu.game.Andgp2015184024.termproject.game.obj.Boss;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Enemy;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.EnemyGenerator;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Fighter;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.HpObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Joystick;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.JoystickBG;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.MyPlane;
@@ -41,6 +42,7 @@ public class MainWorld extends GameWorld {
     private MyPlane myPlane;
     private JoystickBG joystickback;
     private Boss boss;
+    private HpObject hpObject;
 
     public static void create() {
         if(singleton != null){
@@ -100,6 +102,8 @@ public class MainWorld extends GameWorld {
         int viewTop = gw.getTop();
         scoreObject = new ScoreObject(viewRight - 50, viewTop + 10, R.mipmap.num_sprite1);
         add(Layer.ui, scoreObject);
+        hpObject = new HpObject(25, 25, R.mipmap.hpicon_1, 3);
+        add(Layer.ui, hpObject);
 
         add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
                 ImageScrollBackground.Orientation.vertical, 25));
@@ -172,6 +176,9 @@ public class MainWorld extends GameWorld {
 
     public void addScore(int score) {
         int value = scoreObject.addScore(score);
+    }
+    public void decreaseMyHp() {
+        hpObject.decreaseHp();
     }
 
     public void doAction() {
