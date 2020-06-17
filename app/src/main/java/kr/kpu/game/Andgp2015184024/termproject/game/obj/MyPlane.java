@@ -34,7 +34,9 @@ public class MyPlane implements GameObject, BoxCollidable {
     private Joystick joystick;
     private static final int M_SPEED = 500;
     private int myHP;
-    private boolean collisionCooltime;
+    private boolean collisionCooltimeFlag;
+    private long cooltimeStartTime;
+    private final int collisionCooltime = 2;
 
     private boolean gyroOn = false;
     private static final int G_SPEED = 50;
@@ -42,6 +44,7 @@ public class MyPlane implements GameObject, BoxCollidable {
     private float dy;
     private Double stickAngle;
     private boolean JoystickDown;
+
 
     public MyPlane(float x, float y){
         GameWorld gw = GameWorld.get();
@@ -56,6 +59,7 @@ public class MyPlane implements GameObject, BoxCollidable {
         gwBottom = gw.getBottom();
         gwLeft = gw.getLeft();
         gwRight = gw.getRight();
+        collisionCooltimeFlag = false;
 
         if(gyroOn){
             gyroSensor = GyroSensor.get();
@@ -72,6 +76,8 @@ public class MyPlane implements GameObject, BoxCollidable {
             fire();
             lastFire = now;
         }
+//        Log.e(TAG, "flag: " + collisionCooltimeFlag);
+
         if(gyroOn){
             float seconds = GameWorld.get().getTimeDiffInSecond();
             this.dx = gyroSensor.getPitchDegree() * G_SPEED;
@@ -88,34 +94,51 @@ public class MyPlane implements GameObject, BoxCollidable {
         if(x < gwLeft + this.width/2){this.x = gwLeft + this.width/2;}
         if(x > gwRight - this.width/2){this.x = gwRight - this.width/2;}
 
+        if(collisionCooltimeFlag == true){
+            checkCollisionCooltime();
+        }
+        if(collisionCooltimeFlag == false) {
+            ArrayList<GameObject> enemies = gw.objectsAt(MainWorld.Layer.enemy); // 적유닛 충돌처리
+            for (GameObject e : enemies) {
+                if (!(e instanceof Enemy)) {
+                    Log.e(TAG, "object at Layer.enemy is: " + e);
+                    continue;
+                }
+                Enemy enemy = (Enemy) e;
+                if (CollisionHelper.collides(enemy, this)) {
+//                gw.endGame();
+                    Log.e(TAG, "object collision with enemy: " + e);
+                    break;
+                }
+            }
+        }
+        if(collisionCooltimeFlag == false) {
+            ArrayList<GameObject> enemyMissiles = gw.objectsAt(MainWorld.Layer.enemyMissile); //적 미사일 충돌처리
+            for (GameObject em : enemyMissiles) {
+                if (!(em instanceof EnemyMissile)) {
+                    Log.e(TAG, "object at Layer.enemyMissile is: " + em);
+                    continue;
+                }
+                EnemyMissile enemyMissile = (EnemyMissile) em;
+                if (CollisionHelper.collides(enemyMissile, this)) {
+//                gw.endGame();
+                    Log.e(TAG, "object collision with enemyMissile: " + em);
+                    gw.decreaseMyHp();
+                    cooltimeStartTime = gw.getCurrentTimeNanos() / 1_000_000_000;
+                    collisionCooltimeFlag = true;
+                    break;
+                }
+            }
+        }
+    }
 
-        ArrayList<GameObject> enemies = gw.objectsAt(MainWorld.Layer.enemy); // 적유닛 충돌처리
-        for(GameObject e : enemies){
-            if(! (e instanceof Enemy)){
-                Log.e(TAG, "object at Layer.enemy is: " + e);
-                continue;
-            }
-            Enemy enemy = (Enemy) e;
-            if( CollisionHelper.collides(enemy, this)){
-//                gw.endGame();
-                Log.e(TAG, "object collision with enemy: " + e);
-                break;
-            }
+    private void checkCollisionCooltime() {
+        MainWorld mw = MainWorld.get();
+        long nowTime = mw.getCurrentTimeNanos() / 1_000_000_000;
+        if(nowTime - cooltimeStartTime > collisionCooltime){
+            collisionCooltimeFlag = false;
         }
-        ArrayList<GameObject> enemyMissiles = gw.objectsAt(MainWorld.Layer.enemyMissile); //적 미사일 충돌처리
-        for(GameObject em : enemyMissiles){
-            if(! (em instanceof EnemyMissile)){
-                Log.e(TAG, "object at Layer.enemyMissile is: " + em);
-                continue;
-            }
-            EnemyMissile enemyMissile = (EnemyMissile) em;
-            if( CollisionHelper.collides(enemyMissile, this)){
-//                gw.endGame();
-                Log.e(TAG, "object collision with enemyMissile: " + em);
-                gw.decreaseMyHp();
-                break;
-            }
-        }
+
     }
 
     private void moveByJoystick() {

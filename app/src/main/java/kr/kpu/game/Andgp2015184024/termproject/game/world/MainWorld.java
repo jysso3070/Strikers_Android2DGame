@@ -102,7 +102,7 @@ public class MainWorld extends GameWorld {
         int viewTop = gw.getTop();
         scoreObject = new ScoreObject(viewRight - 50, viewTop + 10, R.mipmap.num_sprite1);
         add(Layer.ui, scoreObject);
-        hpObject = new HpObject(25, 25, R.mipmap.hpicon_1, 3);
+        hpObject = new HpObject(25, 25, R.mipmap.hpicon_1, 4);
         add(Layer.ui, hpObject);
 
         add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,

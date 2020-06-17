@@ -50,7 +50,7 @@ public class Boss implements GameObject {
                 break;
         }
         // Boss pattern 1
-        if (pattern_cool == 0 && ball_num < 10) fire();
+        if (pattern_cool == 0 && ball_num < 1) fire();
         --pattern_cool;
     }
 
