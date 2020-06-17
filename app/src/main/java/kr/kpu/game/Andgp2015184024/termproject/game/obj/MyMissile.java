@@ -3,14 +3,21 @@ package kr.kpu.game.Andgp2015184024.termproject.game.obj;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 import kr.kpu.game.Andgp2015184024.termproject.R;
+import kr.kpu.game.Andgp2015184024.termproject.game.iface.BoxCollidable;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
+import kr.kpu.game.Andgp2015184024.termproject.game.iface.Recyclable;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.FrameAnimationBitmap;
+import kr.kpu.game.Andgp2015184024.termproject.util.CollisionHelper;
 
-public class MyMissile implements GameObject {
+public class MyMissile implements GameObject, BoxCollidable, Recyclable {
     private static final float BULLET_SPEED = 1500;
+    private static final String TAG = MyMissile.class.getSimpleName();
     private FrameAnimationBitmap fab;
     private int halfSize;
     private float x;
@@ -44,6 +51,21 @@ public class MyMissile implements GameObject {
 
         boolean toBeDeleted = false;
 
+        ArrayList<GameObject> enemies = gw.objectsAt(MainWorld.Layer.enemy);
+        for(GameObject e : enemies){
+            if(! (e instanceof Enemy)){
+//                Log.e(TAG, "object at Layer.enemy is: " + e);
+                continue;
+            }
+            Enemy enemy = (Enemy) e;
+            if( CollisionHelper.collides(enemy, this)){
+                enemy.decreaseLife(this.power);
+                toBeDeleted = true;
+                break;
+            }
+        }
+
+
         if(!toBeDeleted){
             if(y < gw.getTop() - halfSize){
                 toBeDeleted = true;
@@ -67,5 +89,10 @@ public class MyMissile implements GameObject {
         rect.right = x + hw;
         rect.top = y - hh;
         rect.bottom = y + hh;
+    }
+
+    @Override
+    public void recycle() {
+
     }
 }

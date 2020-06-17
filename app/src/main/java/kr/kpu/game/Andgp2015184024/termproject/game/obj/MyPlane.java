@@ -1,19 +1,24 @@
 package kr.kpu.game.Andgp2015184024.termproject.game.obj;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.RectF;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
+import kr.kpu.game.Andgp2015184024.termproject.game.iface.BoxCollidable;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.sensor.GyroSensor;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.FrameAnimationBitmap;
+import kr.kpu.game.Andgp2015184024.termproject.util.CollisionHelper;
 
-public class MyPlane implements GameObject {
+public class MyPlane implements GameObject, BoxCollidable {
 
     private static final int BULLET_FIRE_INTERVAL_NSEC = 100_000_000;
+    private static final String TAG = MyPlane.class.getSimpleName();
     private final FrameAnimationBitmap fab;
     private final int halfSize;
     private final int height;
@@ -28,6 +33,8 @@ public class MyPlane implements GameObject {
     private int gwRight;
     private Joystick joystick;
     private static final int M_SPEED = 500;
+    private int myHP;
+    private boolean collisionCooltime;
 
     private boolean gyroOn = false;
     private static final int G_SPEED = 50;
@@ -38,6 +45,7 @@ public class MyPlane implements GameObject {
 
     public MyPlane(float x, float y){
         GameWorld gw = GameWorld.get();
+        this.myHP = 10;
         fab = new FrameAnimationBitmap(R.mipmap.jet2, 3, 6);
         halfSize = fab.getHeight() / 2;
         this.height = fab.getHeight();
@@ -75,11 +83,38 @@ public class MyPlane implements GameObject {
         this.JoystickDown = joystick.getJoystickDown();
         moveByJoystick();
 
-
         if(y < gwTop + this.height/2){ this.y = gwTop + this.width;}
         if(y > gwBottom - height/2 ){this.y = gwBottom - height/2;}
         if(x < gwLeft + this.width/2){this.x = gwLeft + this.width/2;}
         if(x > gwRight - this.width/2){this.x = gwRight - this.width/2;}
+
+
+        ArrayList<GameObject> enemies = gw.objectsAt(MainWorld.Layer.enemy); // 적유닛 충돌처리
+        for(GameObject e : enemies){
+            if(! (e instanceof Enemy)){
+                Log.e(TAG, "object at Layer.enemy is: " + e);
+                continue;
+            }
+            Enemy enemy = (Enemy) e;
+            if( CollisionHelper.collides(enemy, this)){
+//                gw.endGame();
+                Log.e(TAG, "object collision with enemy: " + e);
+                break;
+            }
+        }
+        ArrayList<GameObject> enemyMissiles = gw.objectsAt(MainWorld.Layer.enemyMissile); //적 미사일 충돌처리
+        for(GameObject em : enemyMissiles){
+            if(! (em instanceof EnemyMissile)){
+                Log.e(TAG, "object at Layer.enemyMissile is: " + em);
+                continue;
+            }
+            EnemyMissile enemyMissile = (EnemyMissile) em;
+            if( CollisionHelper.collides(enemyMissile, this)){
+//                gw.endGame();
+                Log.e(TAG, "object collision with enemyMissile: " + em);
+                break;
+            }
+        }
     }
 
     private void moveByJoystick() {
@@ -139,5 +174,15 @@ public class MyPlane implements GameObject {
             gyroSensor = GyroSensor.get();
             gyroSensor.reset();
         }
+    }
+
+    @Override
+    public void getBox(RectF rect) {
+        int hw = fab.getWidth() / 6;
+        int hh = fab.getHeight() / 2;
+        rect.left = x - hw;
+        rect.right = x + hw;
+        rect.top = y - 2*(hh/3);
+        rect.bottom = y - (hh/4);
     }
 }

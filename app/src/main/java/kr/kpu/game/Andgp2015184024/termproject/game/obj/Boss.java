@@ -57,8 +57,8 @@ public class Boss implements GameObject {
     public void draw(Canvas canvas) { canvas.drawBitmap(bitmap, x, y, null); }
 
     private void fire() {
-        Ball bullet = new Ball(x + (size / 2), y + size, 10, 5);
-        MainWorld.get().add(MainWorld.Layer.missile, bullet);
+        EnemyMissile bullet = new EnemyMissile(x + (size / 2), y + size, 10, 5);
+        MainWorld.get().add(MainWorld.Layer.enemyMissile, bullet);
         ++ball_num;
         pattern_cool = 100;
     }

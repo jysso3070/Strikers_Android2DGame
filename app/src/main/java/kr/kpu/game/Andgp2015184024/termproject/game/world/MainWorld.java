@@ -59,7 +59,7 @@ public class MainWorld extends GameWorld {
 
 
     public enum Layer{
-        bg, missile, enemy, player, ui, COUNT
+        bg, missile, enemy, enemyBoss, player, ui, enemyMissile, COUNT
     }
 
     protected int getLayerCount(){
@@ -69,6 +69,7 @@ public class MainWorld extends GameWorld {
     @Override
     public void initObjects() {
         Resources res = view.getResources();
+        GameWorld gw = GameWorld.get();
 //        objects = new ArrayList<>();
 
 //        Random rand = new Random();
@@ -86,8 +87,7 @@ public class MainWorld extends GameWorld {
 //        fighter = new Fighter(200, 700);
 //        add(Layer.player, fighter);
 
-//        scoreObject = new ScoreObject(800, 100, R.mipmap.number_64x84);
-//        add(Layer.ui, scoreObject);
+
 //        highScoreObject = new ScoreObject(800, 100, R.mipmap.number_24x32);
 //        add(Layer.ui, highScoreObject);
 
@@ -96,6 +96,10 @@ public class MainWorld extends GameWorld {
 //                TileScrollBackground.Orientation.vertical, -25));
 //        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
 //                ImageScrollBackground.Orientation.vertical, 100));
+        int viewRight = gw.getRight();
+        int viewTop = gw.getTop();
+        scoreObject = new ScoreObject(viewRight - 50, viewTop + 10, R.mipmap.num_sprite1);
+        add(Layer.ui, scoreObject);
 
         add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
                 ImageScrollBackground.Orientation.vertical, 25));
@@ -106,10 +110,13 @@ public class MainWorld extends GameWorld {
         joystick = new Joystick(rect.right - 400, rect.bottom - 400, Joystick.Direction.normal, 100);
         add(Layer.ui, joystick);
         myPlane.setJoystick(joystick);
+        SharedPreferences gyroPrefs = view.getContext().getSharedPreferences("gyroPrefs", Context.MODE_PRIVATE);
+        boolean gyroOn = gyroPrefs.getBoolean("gyroSensorOn", false);
+        myPlane.setGyro(gyroOn);
 
         // Boss Monster
         boss = new Boss((rect.right / 2) - 200, 50);
-        add(Layer.enemy, boss);
+        add(Layer.enemyBoss, boss);
 
         startGame();
     }
@@ -123,15 +130,11 @@ public class MainWorld extends GameWorld {
 
     private void startGame() {
         playState = PlayState.normal;
-//        scoreObject.reset();
+        scoreObject.reset();
 
         SharedPreferences prefs = view.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         int highScore = prefs.getInt(PREF_KEY_HIGHSCORE, 0);
 //        highScoreObject.setScore(highScore);
-
-        SharedPreferences gyroPrefs = view.getContext().getSharedPreferences("gyroPrefs", Context.MODE_PRIVATE);
-        boolean gyroOn = gyroPrefs.getBoolean("gyroSensorOn", false);
-        myPlane.setGyro(gyroOn);
 
     }
 
@@ -151,7 +154,6 @@ public class MainWorld extends GameWorld {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         joystick.onTouchEvent(event);
-//        System.out.println(event.getX() + ", " + event.getY());
 //        GameWorld gw = GameWorld.get();
 //        myPlane.move(event.getX(), event.getY());
         int action = event.getAction();
