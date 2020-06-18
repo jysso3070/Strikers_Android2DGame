@@ -70,10 +70,9 @@ public class EnemyGenerator {
         if (level > MAX_LEVEL) {
             level = MAX_LEVEL;
         }
-
+        MainWorld gw = MainWorld.get();
         Enemy e = Enemy.get(x, level, speed);
 //        GameWorld gw = GameWorld.get();
-        MainWorld gw = MainWorld.get();
         gw.add(MainWorld.Layer.enemy, e);
 //        Log.d(TAG, "" + e);
 

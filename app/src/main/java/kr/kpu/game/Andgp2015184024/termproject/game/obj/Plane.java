@@ -29,7 +29,6 @@ public class Plane implements GameObject, BoxCollidable {
     private Joystick joystick;
     private int SPEED = 100;
 
-
     public Plane(float x, float y, float dx, float dy){
         GameWorld gw = GameWorld.get();
         if(bitmap == null){

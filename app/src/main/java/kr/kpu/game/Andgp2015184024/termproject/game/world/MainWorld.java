@@ -8,14 +8,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
-import kr.kpu.game.Andgp2015184024.termproject.game.obj.Ball;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Boss;
-import kr.kpu.game.Andgp2015184024.termproject.game.obj.Enemy;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.EnemyGenerator;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Fighter;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.HpObject;
@@ -25,7 +22,6 @@ import kr.kpu.game.Andgp2015184024.termproject.game.obj.MyPlane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Plane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScoreObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.bg.ImageScrollBackground;
-import kr.kpu.game.Andgp2015184024.termproject.game.obj.bg.TileScrollBackground;
 
 public class MainWorld extends GameWorld {
     private static final int BALL_COUNT = 10;
@@ -67,6 +63,8 @@ public class MainWorld extends GameWorld {
     protected int getLayerCount(){
         return Layer.COUNT.ordinal();
     }
+
+    public MyPlane GetPlayer() { return myPlane; }
 
     @Override
     public void initObjects() {

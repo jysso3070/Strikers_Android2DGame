@@ -67,13 +67,16 @@ public class MyPlane implements GameObject, BoxCollidable {
         }
     }
 
+    public float getX() { return this.x; }
+    public float getY() { return this.y; }
+
     @Override
     public void update() {
         MainWorld gw = MainWorld.get();
         long now = gw.getCurrentTimeNanos();
         long elapsed = now - lastFire;
         if(elapsed > BULLET_FIRE_INTERVAL_NSEC) {
-            fire();
+            //fire();
             lastFire = now;
         }
 //        Log.e(TAG, "flag: " + collisionCooltimeFlag);

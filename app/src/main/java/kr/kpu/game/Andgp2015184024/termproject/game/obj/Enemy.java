@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
 
+import java.util.Random;
+
 import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.BoxCollidable;
@@ -20,6 +22,7 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
     public static int[] RES_IDS = {
             R.mipmap.enemy_a, R.mipmap.enemy_b, R.mipmap.enemy_c, R.mipmap.enemy_d,
     };
+    private static Random rand;
     private FrameAnimationBitmap fab;
     private int height;
     private float x, y;
@@ -27,6 +30,10 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
     private int life;
     private Paint paint = new Paint();
     private int score;
+    private float targetX, targetY;
+    private int att_count = 0;
+    private int move_count = 0;
+    private int y_range;
 
     private Enemy(){
         Log.d(TAG, "new: " + this);
@@ -55,6 +62,10 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
         e.life = (level + 1) * 100;
         e.score = (level + 1) * 100;
 
+        rand = new Random();
+
+        e.y_range = rand.nextInt(3);
+
         e.paint.setColor(Color.BLACK);
         e.paint.setTextSize(50);
 
@@ -65,10 +76,34 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
 //        Log.d(TAG, "update() - " + this);
 //        Log.d(TAG, "update() x=" + x + " y=" + y + " - " + this);
         GameWorld gw = GameWorld.get();
-        y += speed * gw.getTimeDiffInSecond();
+        MainWorld mw = MainWorld.get();
+        // 몬스터가 무작위 좌우로 움직이게 하도록 조절
+        int x_range = rand.nextInt(2000);
+        if (move_count == 0) {
+            targetX = mw.GetPlayer().getX() + (-1000 + x_range);
+            move_count = 60;
+        }
+        if (x < targetX) x += (speed * gw.getTimeDiffInSecond()) / 2;
+        if (x > targetX) x -= (speed * gw.getTimeDiffInSecond()) / 2;
+        y += (speed * gw.getTimeDiffInSecond()) / (1 + y_range);
+        // 공격 타이밍일 경우, 몬스터가 플레이어를 향해 총알 발사
+        if (att_count == 0) {
+            //fire(targetX, targetY, mw);
+            att_count = 600;
+        }
         if (y > gw.getBottom() + height) {
             gw.remove(this);
         }
+        --move_count;
+        --att_count;
+    }
+
+    private void fire(float tx, float ty, MainWorld world) {
+        targetX = world.GetPlayer().getX();
+        targetY = world.GetPlayer().getY();
+
+        EnemyMissile em = new EnemyMissile(x, y, 5, 5);
+        MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
     }
 
     @Override
