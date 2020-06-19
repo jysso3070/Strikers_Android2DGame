@@ -31,7 +31,7 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
     private Paint paint = new Paint();
     private int score;
     private float targetX, targetY;
-    private int att_count = 0;
+    private int att_count;
     private int move_count = 0;
     private int y_range;
 
@@ -64,6 +64,8 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
 
         rand = new Random();
 
+        e.att_count = 50 + rand.nextInt(100);
+
         e.y_range = rand.nextInt(3);
 
         e.paint.setColor(Color.BLACK);
@@ -81,15 +83,15 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
         int x_range = rand.nextInt(2000);
         if (move_count == 0) {
             targetX = mw.GetPlayer().getX() + (-1000 + x_range);
-            move_count = 60;
+            move_count = 30;
         }
         if (x < targetX) x += (speed * gw.getTimeDiffInSecond()) / 2;
         if (x > targetX) x -= (speed * gw.getTimeDiffInSecond()) / 2;
         y += (speed * gw.getTimeDiffInSecond()) / (1 + y_range);
         // 공격 타이밍일 경우, 몬스터가 플레이어를 향해 총알 발사
         if (att_count == 0) {
-            //fire(targetX, targetY, mw);
-            att_count = 600;
+            fire(targetX, targetY);
+            att_count = 50 + rand.nextInt(100);
         }
         if (y > gw.getBottom() + height) {
             gw.remove(this);
@@ -98,11 +100,8 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
         --att_count;
     }
 
-    private void fire(float tx, float ty, MainWorld world) {
-        targetX = world.GetPlayer().getX();
-        targetY = world.GetPlayer().getY();
-
-        EnemyMissile em = new EnemyMissile(x, y, 5, 5);
+    private void fire(float tx, float ty) {
+        EnemyMissile em = new EnemyMissile(x, y, 10);
         MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
     }
 

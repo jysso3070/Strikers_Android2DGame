@@ -17,7 +17,6 @@ public class Boss implements GameObject {
     private short dir;
     // pattern에 사용
     private int pattern_cool;
-    private int ball_num;
 
     public Boss(float x, float y) {
         GameWorld gw = GameWorld.get();
@@ -29,7 +28,6 @@ public class Boss implements GameObject {
         size = bitmap.getHeight();
         dir = 0;
         pattern_cool = 0;
-        ball_num = 0;
     }
 
     public void update() {
@@ -50,16 +48,17 @@ public class Boss implements GameObject {
                 break;
         }
         // Boss pattern 1
-        if (pattern_cool == 0 && ball_num < 1) fire();
+        if (pattern_cool == 0) fire();
         --pattern_cool;
     }
 
     public void draw(Canvas canvas) { canvas.drawBitmap(bitmap, x, y, null); }
 
     private void fire() {
-        EnemyMissile em = new EnemyMissile(x + (size / 2), y + size, 10, 5);
-        MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
-        ++ball_num;
+        for (int i = 0; i < 3; ++i) {
+            EnemyMissile em = new EnemyMissile(x + (size / 2), y + size + (i * 50), 10);
+            MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
+        }
         pattern_cool = 100;
     }
 }
