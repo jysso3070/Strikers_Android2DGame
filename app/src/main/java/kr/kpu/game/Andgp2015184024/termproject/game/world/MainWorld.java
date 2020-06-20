@@ -48,6 +48,7 @@ public class MainWorld extends GameWorld {
     private BGSound bgSound;
 
     private boolean gameOverFlag;
+    private int type = 0;
 
     public static void create() {
         if(singleton != null){
@@ -225,9 +226,18 @@ public class MainWorld extends GameWorld {
 
         // Boss Monster
         if (enemyGenerator.getIsboss()) {
-            boss = new Boss((rect.right / 2) - 200, -500);
-            add(Layer.enemyBoss, boss);
-            enemyGenerator.setIsboss(false);
+            if (type == 0) {
+                boss = new Boss((rect.right / 2) - 200, -500);
+                add(Layer.enemyBoss, boss);
+                enemyGenerator.setIsboss(false);
+                type = 1;
+            }
+            else if (type == 1) {
+                boss = new Boss((rect.right / 2) - 200, -500, 1);
+                add(Layer.enemyBoss, boss);
+                enemyGenerator.setIsboss(false);
+                type = 0;
+            }
         }
     }
 

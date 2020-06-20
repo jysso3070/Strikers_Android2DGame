@@ -3,29 +3,40 @@ package kr.kpu.game.Andgp2015184024.termproject.game.obj;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
+import java.util.Random;
+
 import kr.kpu.game.Andgp2015184024.termproject.R;
 import kr.kpu.game.Andgp2015184024.termproject.game.framework.GameWorld;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.BoxCollidable;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
+import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.FrameAnimationBitmap;
 
 public class EnemyMissile implements GameObject, BoxCollidable {
     private static final String TAG = EnemyMissile.class.getSimpleName();
     private static final int FRAME_PER_SECOND = 6;
     private final FrameAnimationBitmap fab;
+    private int rand_dir;
     private int speed;
     private float x;
     private float y;
     private int type;
-    private int count = 0;
     private int dir = 1;
+    private float targetX;
+    private float targetY;
+    private static Random rand;
 
     public EnemyMissile(float x, float y, int speed){
         fab = new FrameAnimationBitmap(R.mipmap.e_missile, FRAME_PER_SECOND, 0);
         this.x = x;
         this.y = y;
-        this.type = 0;
         this.speed = speed;
+        if (speed != 100) this.type = 0;
+        else this.type = 2;
+        rand = new Random();
+        rand_dir = rand.nextInt(10);
+        if (rand_dir < 5) dir = 1;
+        else dir = -1;
     }
 
     public EnemyMissile(float x, float y){
@@ -33,6 +44,10 @@ public class EnemyMissile implements GameObject, BoxCollidable {
         this.x = x;
         this.y = y;
         this.type = 1;
+        targetX = MainWorld.get().GetPlayer().getX();
+        targetY = MainWorld.get().GetPlayer().getX();
+        if (x < targetX) dir = 1;
+        else if (x > targetX) dir = -1;
     }
 
     public void update(){
@@ -41,6 +56,10 @@ public class EnemyMissile implements GameObject, BoxCollidable {
             y += speed;
         }
         else if (type == 1) {
+            if (Math.abs(x) < Math.abs(targetX)) x += dir * 10;
+            y += 5;
+        }
+        else if (type == 2) {
             if (x < 0) dir = 1;
             if (x > gw.getRight()) dir = -1;
             x += 10 * dir;

@@ -40,7 +40,7 @@ public class EnemyGenerator {
         if (elapsed > generationInterval) {
             generateWave();
             lastGenerated = now;
-            if (wave % 10 == 0 && wave != 0) is_boss = true;
+            if (wave % 7 == 0 && wave != 0) is_boss = true;
         }
     }
 
