@@ -93,7 +93,7 @@ public class Boss implements GameObject, BoxCollidable {
         // Boss Pattern 2 - 체력이 적을 때
         if (energyball_cool % 50 == 0 && energyball_cool <= 200) EnergyBall();
         // Boss Pattern 3 - 2번째 보스만 가지고 있는 패턴
-        if (randatt_cool % 2 == 0 && randatt_cool <= 150 && type != 0) randomAttack();
+        if (randatt_cool % 2 == 0 && randatt_cool <= 250 && type != 0) randomAttack();
         --pattern_cool;
         if (life < 8000) --energyball_cool;
         if (life < 5000 && type != 0) --randatt_cool;
@@ -138,7 +138,7 @@ public class Boss implements GameObject, BoxCollidable {
         EnemyMissile em = new EnemyMissile(x, y, 100);
         MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
 
-        if (randatt_cool < 0) randatt_cool = 400;
+        if (randatt_cool < 0) randatt_cool = 500;
     }
 
     public void decreaseLife(int power) {

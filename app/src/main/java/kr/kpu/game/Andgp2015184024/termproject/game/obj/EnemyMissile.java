@@ -45,9 +45,8 @@ public class EnemyMissile implements GameObject, BoxCollidable {
         this.y = y;
         this.type = 1;
         targetX = MainWorld.get().GetPlayer().getX();
-        targetY = MainWorld.get().GetPlayer().getX();
         if (x < targetX) dir = 1;
-        else if (x > targetX) dir = -1;
+        else dir = -1;
     }
 
     public void update(){
@@ -56,7 +55,7 @@ public class EnemyMissile implements GameObject, BoxCollidable {
             y += speed;
         }
         else if (type == 1) {
-            if (Math.abs(x) < Math.abs(targetX)) x += dir * 10;
+            if (Math.abs(x - targetX) > 10) x += 10 * dir;
             y += 5;
         }
         else if (type == 2) {
