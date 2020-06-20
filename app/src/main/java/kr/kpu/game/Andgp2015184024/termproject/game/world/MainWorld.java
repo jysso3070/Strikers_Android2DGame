@@ -125,7 +125,7 @@ public class MainWorld extends GameWorld {
         int viewTop = gw.getTop();
         scoreObject = new ScoreObject(viewRight - 50, viewTop + 10, R.mipmap.num_sprite1);
         add(Layer.ui, scoreObject);
-        hpObject = new HpObject(25, 25, R.mipmap.hpicon_1, myPlane.getMaxHp());
+        hpObject = new HpObject(25, 25, R.mipmap.hpicon_2, myPlane.getMaxHp());
         add(Layer.ui, hpObject);
 
         // Boss Monster
