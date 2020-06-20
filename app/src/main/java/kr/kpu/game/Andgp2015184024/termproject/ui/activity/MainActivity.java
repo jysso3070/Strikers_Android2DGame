@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private static final long GAMEVIEW_UPDATE_INTERVAL_MSEC = 30;
     private static final String TAG = MainActivity.class.getSimpleName();
     private GameView gameView;
+    private BGSound bgSound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         se.init(this); // 최소 생성자
         se.ladAll();
 
-        BGSound bgSound = BGSound.get();
+        bgSound = BGSound.get();
         bgSound.init(this);
 
         MainWorld.create();
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         gameView.pause();
+        bgSound.stop();
 //        GameWorld.get().pause();
         super.onPause();
     }

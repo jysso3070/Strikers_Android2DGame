@@ -33,7 +33,8 @@ public class MyPlane implements GameObject, BoxCollidable {
     private int gwRight;
     private Joystick joystick;
     private static final int M_SPEED = 500;
-    private int myHP;
+    private int MaxHP;
+    private int currentHP;
     private boolean collisionCooltimeFlag;
     private long cooltimeStartTime;
     private final int collisionCooltime = 2;
@@ -48,7 +49,8 @@ public class MyPlane implements GameObject, BoxCollidable {
 
     public MyPlane(float x, float y){
         GameWorld gw = GameWorld.get();
-        this.myHP = 10;
+        this.MaxHP = 4;
+        this.currentHP = MaxHP;
         fab = new FrameAnimationBitmap(R.mipmap.jet2, 3, 6);
         halfSize = fab.getHeight() / 2;
         this.height = fab.getHeight();
@@ -126,12 +128,21 @@ public class MyPlane implements GameObject, BoxCollidable {
                 if (CollisionHelper.collides(enemyMissile, this)) {
 //                gw.endGame();
                     Log.e(TAG, "object collision with enemyMissile: " + em);
-                    gw.decreaseMyHp();
+                    decreaseMyHp();
+                    gw.decreaseHpObject();
                     cooltimeStartTime = gw.getCurrentTimeNanos() / 1_000_000_000;
                     collisionCooltimeFlag = true;
                     break;
                 }
             }
+        }
+    }
+
+    private void decreaseMyHp() {
+        this.currentHP -= 1;
+
+        if(this.currentHP < 1){
+            MainWorld.get().endGame();
         }
     }
 
@@ -211,5 +222,9 @@ public class MyPlane implements GameObject, BoxCollidable {
         rect.right = x + hw;
         rect.top = y - 2*(hh/3);
         rect.bottom = y - (hh/4);
+    }
+
+    public int getMaxHp() {
+        return this.MaxHP;
     }
 }

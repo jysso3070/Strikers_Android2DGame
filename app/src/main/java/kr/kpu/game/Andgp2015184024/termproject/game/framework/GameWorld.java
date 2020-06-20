@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.Recyclable;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScreenObject;
 
 public abstract class GameWorld {
     private static final String TAG = GameWorld.class.getSimpleName();
@@ -99,6 +100,9 @@ public abstract class GameWorld {
 
         for(ArrayList<GameObject> layer : layers){
             for(GameObject o : layer) {
+//                if(o instanceof ScreenObject){
+//                    o.update();
+//                }
                 o.update();
             }
         }

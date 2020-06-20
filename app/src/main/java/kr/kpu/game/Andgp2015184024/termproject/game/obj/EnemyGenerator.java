@@ -78,4 +78,8 @@ public class EnemyGenerator {
 
         return level;
     }
+
+    public void resetWave() {
+        this.wave = 0;
+    }
 }

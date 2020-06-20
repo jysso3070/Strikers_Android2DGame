@@ -1,6 +1,7 @@
 package kr.kpu.game.Andgp2015184024.termproject.game.world;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -21,8 +22,12 @@ import kr.kpu.game.Andgp2015184024.termproject.game.obj.JoystickBG;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.MyPlane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Plane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScoreObject;
+import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScreenObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.bg.ImageScrollBackground;
 import kr.kpu.game.Andgp2015184024.termproject.res.sound.BGSound;
+import kr.kpu.game.Andgp2015184024.termproject.res.sound.SoundEffects;
+import kr.kpu.game.Andgp2015184024.termproject.ui.activity.MainActivity;
+import kr.kpu.game.Andgp2015184024.termproject.ui.activity.TitleActivity;
 
 public class MainWorld extends GameWorld {
     private static final int BALL_COUNT = 10;
@@ -41,6 +46,8 @@ public class MainWorld extends GameWorld {
     private Boss boss;
     private HpObject hpObject;
     private BGSound bgSound;
+
+    private boolean gameOverFlag;
 
     public static void create() {
         if(singleton != null){
@@ -72,6 +79,7 @@ public class MainWorld extends GameWorld {
     public void initObjects() {
         Resources res = view.getResources();
         GameWorld gw = GameWorld.get();
+        gameOverFlag = false;
 //        objects = new ArrayList<>();
 
 //        Random rand = new Random();
@@ -98,12 +106,7 @@ public class MainWorld extends GameWorld {
 //                TileScrollBackground.Orientation.vertical, -25));
 //        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
 //                ImageScrollBackground.Orientation.vertical, 100));
-        int viewRight = gw.getRight();
-        int viewTop = gw.getTop();
-        scoreObject = new ScoreObject(viewRight - 50, viewTop + 10, R.mipmap.num_sprite1);
-        add(Layer.ui, scoreObject);
-        hpObject = new HpObject(25, 25, R.mipmap.hpicon_1, 4);
-        add(Layer.ui, hpObject);
+
 
         add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
                 ImageScrollBackground.Orientation.vertical, 25));
@@ -117,6 +120,13 @@ public class MainWorld extends GameWorld {
         SharedPreferences gyroPrefs = view.getContext().getSharedPreferences("gyroPrefs", Context.MODE_PRIVATE);
         boolean gyroOn = gyroPrefs.getBoolean("gyroSensorOn", false);
         myPlane.setGyro(gyroOn);
+
+        int viewRight = gw.getRight();
+        int viewTop = gw.getTop();
+        scoreObject = new ScoreObject(viewRight - 50, viewTop + 10, R.mipmap.num_sprite1);
+        add(Layer.ui, scoreObject);
+        hpObject = new HpObject(25, 25, R.mipmap.hpicon_1, myPlane.getMaxHp());
+        add(Layer.ui, hpObject);
 
         // Boss Monster
         boss = new Boss((rect.right / 2) - 200, 50);
@@ -141,8 +151,14 @@ public class MainWorld extends GameWorld {
         int highScore = prefs.getInt(PREF_KEY_HIGHSCORE, 0);
 //        highScoreObject.setScore(highScore);
 
-
+        ArrayList<GameObject> ui = MainWorld.get().objectsAt(MainWorld.Layer.ui);
+        for(GameObject temp : ui){
+            if(temp instanceof ScreenObject){
+                MainWorld.get().remove(temp);
+            }
+        }
         BGSound.get().playBGM();
+
 
 
     }
@@ -158,6 +174,15 @@ public class MainWorld extends GameWorld {
             editor.commit();
             // 게임종료시 진행되야 할 것들
         }
+
+        GameWorld gw = GameWorld.get();
+        ScreenObject gameoverImg = new ScreenObject(gw.getRight() / 3, gw.getBottom() / 2, R.mipmap.gameover);
+        add(Layer.ui, gameoverImg);
+        BGSound.get().stop();
+        SoundEffects.get().play(R.raw.enemy_bomb);
+//        enemyGenerator.resetWave();
+
+
     }
 
     @Override
@@ -166,9 +191,12 @@ public class MainWorld extends GameWorld {
 //        GameWorld gw = GameWorld.get();
 //        myPlane.move(event.getX(), event.getY());
         int action = event.getAction();
-        if(action == MotionEvent.ACTION_DOWN){
+            if(action == MotionEvent.ACTION_DOWN){
             if(playState == PlayState.gameOver){
-                startGame();
+                Context context = getContext();
+                Intent intent = new Intent(context, TitleActivity.class);
+                context.startActivity(intent);
+//                startGame();
                 return false;
             }
 //            doAction();
@@ -182,7 +210,7 @@ public class MainWorld extends GameWorld {
     public void addScore(int score) {
         int value = scoreObject.addScore(score);
     }
-    public void decreaseMyHp() {
+    public void decreaseHpObject() {
         hpObject.decreaseHp();
     }
 
@@ -192,11 +220,11 @@ public class MainWorld extends GameWorld {
 
     @Override
     public void update(long frameTimeNanos) {
-        super.update(frameTimeNanos);
 
         if(playState != PlayState.normal){
             return;
         }
+        super.update(frameTimeNanos);
 
         enemyGenerator.update();
     }
