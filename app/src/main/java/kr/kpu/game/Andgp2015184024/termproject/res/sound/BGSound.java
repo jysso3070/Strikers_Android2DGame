@@ -26,7 +26,7 @@ public class BGSound {
     public void init(Context context){
         this.context = context;
         mp = MediaPlayer.create(this.context, R.raw.play_sound);
-        mp.setVolume(0.2f, 0.2f);
+        mp.setVolume(1.f, 1.f);
     }
 
     public void playBGM() {

@@ -20,6 +20,7 @@ public class Boss implements GameObject, BoxCollidable {
     private int life;
     // pattern에 사용
     private int pattern_cool;
+    private int energyball_cool;
 
     public Boss(float x, float y) {
         GameWorld gw = GameWorld.get();
@@ -32,6 +33,7 @@ public class Boss implements GameObject, BoxCollidable {
         size = bitmap.getHeight();
         dir = 0;
         pattern_cool = 0;
+        energyball_cool = 300;
     }
 
     public void update() {
@@ -53,8 +55,12 @@ public class Boss implements GameObject, BoxCollidable {
                 break;
         }
         // Boss pattern 1
-        if (pattern_cool == 0) fire();
+        if (pattern_cool < 0) fire();
+        // Boss Pattern 2 - 체력이 적을 때
+        if (energyball_cool %  10 == 0 && energyball_cool <= 100 && life < 8000) EnergyBall();
+
         --pattern_cool;
+        if (life < 8000) --energyball_cool;
     }
 
     public void draw(Canvas canvas) { canvas.drawBitmap(bitmap, x, y, null); }
@@ -65,6 +71,13 @@ public class Boss implements GameObject, BoxCollidable {
             MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
         }
         pattern_cool = 100;
+    }
+
+    private void EnergyBall() {
+        EnemyMissile em = new EnemyMissile(x + (size / 2), y + (size / 2));
+        MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
+
+        if (energyball_cool < 0) energyball_cool = 300;
     }
 
     public void decreaseLife(int power){

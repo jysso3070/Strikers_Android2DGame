@@ -130,6 +130,7 @@ public class MyPlane implements GameObject, BoxCollidable {
                     Log.e(TAG, "object collision with enemyMissile: " + em);
                     decreaseMyHp();
                     gw.decreaseHpObject();
+                    gw.add(MainWorld.Layer.effect, new AttackSprite(x, y));
                     cooltimeStartTime = gw.getCurrentTimeNanos() / 1_000_000_000;
                     collisionCooltimeFlag = true;
                     break;

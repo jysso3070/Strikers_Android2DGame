@@ -16,18 +16,36 @@ public class EnemyMissile implements GameObject, BoxCollidable {
     private int speed;
     private float x;
     private float y;
-
+    private int type;
+    private int count = 0;
+    private int dir = 1;
 
     public EnemyMissile(float x, float y, int speed){
         fab = new FrameAnimationBitmap(R.mipmap.e_missile, FRAME_PER_SECOND, 0);
         this.x = x;
         this.y = y;
+        this.type = 0;
         this.speed = speed;
+    }
+
+    public EnemyMissile(float x, float y){
+        fab = new FrameAnimationBitmap(R.mipmap.energyball, FRAME_PER_SECOND, 3);
+        this.x = x;
+        this.y = y;
+        this.type = 1;
     }
 
     public void update(){
         GameWorld gw = GameWorld.get();
-        y += speed;
+        if (type == 0) {
+            y += speed;
+        }
+        else if (type == 1) {
+            if (x < 0) dir = 1;
+            if (x > gw.getRight()) dir = -1;
+            x += 10 * dir;
+            y += 5;
+        }
 
         if (y > gw.getBottom()) {
             gw.remove(this);
