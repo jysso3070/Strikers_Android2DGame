@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import kr.kpu.game.Andgp2015184024.termproject.game.sensor.GyroSensor;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
+import kr.kpu.game.Andgp2015184024.termproject.res.sound.BGSound;
 import kr.kpu.game.Andgp2015184024.termproject.res.sound.SoundEffects;
 import kr.kpu.game.Andgp2015184024.termproject.ui.view.GameView;
 
@@ -25,13 +26,19 @@ public class MainActivity extends AppCompatActivity {
         GyroSensor.get().setActivity(this);
         GyroSensor.get().connetSensor();
 
+        SoundEffects se = SoundEffects.get();
+        se.init(this); // 최소 생성자
+        se.ladAll();
+
+        BGSound bgSound = BGSound.get();
+        bgSound.init(this);
+
         MainWorld.create();
         gameView = new GameView(this);
         setContentView(gameView);
 
-        SoundEffects se = SoundEffects.get();
-        se.init(this); // 최소 생성자
-        se.ladAll();
+
+
 
 //        gameView = findViewById(R.id.gameView);
 

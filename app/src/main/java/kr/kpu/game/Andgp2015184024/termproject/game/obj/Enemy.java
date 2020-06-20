@@ -15,6 +15,7 @@ import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.Recyclable;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.FrameAnimationBitmap;
+import kr.kpu.game.Andgp2015184024.termproject.res.sound.SoundEffects;
 
 public class Enemy implements GameObject, BoxCollidable, Recyclable {
     public static final int FRAMES_PER_SECOND = 12;

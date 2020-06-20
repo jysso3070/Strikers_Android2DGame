@@ -22,6 +22,7 @@ import kr.kpu.game.Andgp2015184024.termproject.game.obj.MyPlane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.Plane;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.ScoreObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.obj.bg.ImageScrollBackground;
+import kr.kpu.game.Andgp2015184024.termproject.res.sound.BGSound;
 
 public class MainWorld extends GameWorld {
     private static final int BALL_COUNT = 10;
@@ -39,6 +40,7 @@ public class MainWorld extends GameWorld {
     private JoystickBG joystickback;
     private Boss boss;
     private HpObject hpObject;
+    private BGSound bgSound;
 
     public static void create() {
         if(singleton != null){
@@ -120,6 +122,7 @@ public class MainWorld extends GameWorld {
         boss = new Boss((rect.right / 2) - 200, 50);
         add(Layer.enemyBoss, boss);
 
+
         startGame();
     }
 
@@ -137,6 +140,10 @@ public class MainWorld extends GameWorld {
         SharedPreferences prefs = view.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         int highScore = prefs.getInt(PREF_KEY_HIGHSCORE, 0);
 //        highScoreObject.setScore(highScore);
+
+
+        BGSound.get().playBGM();
+
 
     }
 

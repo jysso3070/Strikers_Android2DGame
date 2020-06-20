@@ -40,7 +40,7 @@ public class SoundEffects {
     }
 
     private static final int[] SOUND_IDS = {
-            R.raw.hadouken,
+            R.raw.hadouken, R.raw.play_sound, R.raw.enemy_bomb,
     };
     private HashMap<Integer, Integer> soundIdMap = new HashMap<>();
     public void ladAll(){
