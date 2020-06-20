@@ -66,7 +66,7 @@ public class MainWorld extends GameWorld {
 
 
     public enum Layer{
-        bg, missile, enemy, enemyBoss, player, ui, enemyMissile, effect, COUNT
+        bg, missile, enemy, enemyBoss, player, enemyMissile, effect, ui, COUNT
     }
 
     protected int getLayerCount(){

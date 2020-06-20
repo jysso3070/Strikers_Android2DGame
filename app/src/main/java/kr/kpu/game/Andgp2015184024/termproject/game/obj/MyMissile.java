@@ -13,6 +13,7 @@ import kr.kpu.game.Andgp2015184024.termproject.game.iface.GameObject;
 import kr.kpu.game.Andgp2015184024.termproject.game.iface.Recyclable;
 import kr.kpu.game.Andgp2015184024.termproject.game.world.MainWorld;
 import kr.kpu.game.Andgp2015184024.termproject.res.bitmap.FrameAnimationBitmap;
+import kr.kpu.game.Andgp2015184024.termproject.res.sound.SoundEffects;
 import kr.kpu.game.Andgp2015184024.termproject.util.CollisionHelper;
 
 public class MyMissile implements GameObject, BoxCollidable, Recyclable {
@@ -60,6 +61,7 @@ public class MyMissile implements GameObject, BoxCollidable, Recyclable {
             Enemy enemy = (Enemy) e;
             if( CollisionHelper.collides(enemy, this)){
                 enemy.decreaseLife(this.power);
+                SoundEffects.get().play(R.raw.enemy_hit);
                 gw.add(MainWorld.Layer.effect, new AttackSprite(enemy.getX(), enemy.getY()));
                 toBeDeleted = true;
                 break;

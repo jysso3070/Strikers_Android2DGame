@@ -40,7 +40,7 @@ public class SoundEffects {
     }
 
     private static final int[] SOUND_IDS = {
-            R.raw.hadouken, R.raw.play_sound, R.raw.enemy_bomb,
+            R.raw.hadouken, R.raw.play_sound, R.raw.enemy_bomb, R.raw.enemy_hit,
     };
     private HashMap<Integer, Integer> soundIdMap = new HashMap<>();
     public void ladAll(){
@@ -52,6 +52,10 @@ public class SoundEffects {
     public int play(int resId){
         int soundId = soundIdMap.get(resId);
         int streamId = soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+        if(resId == R.raw.enemy_hit){
+            streamId = soundPool.play(soundId, 1f, 1f, 1, 0, 2.0f);
+        }
+
         return streamId;
     }
 }
