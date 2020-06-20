@@ -12,12 +12,16 @@ public class EnemyGenerator {
     private static final long INITIAL_GENERATE_INTERVAL = 5_000_000_000L;
     private static final long MINIMUM_GENERATE_INTERVAL = 1_000_000_000L;
     private static final double INTERVAL_REDUCE_RATE_PER_WAVE = 0.995;
-    private static final int MAX_SPEED = 2000;
+    private static final int MAX_SPEED = 1000;
     private static final int MAX_LEVEL = Enemy.RES_IDS.length;
     private long lastGenerated;
     private long generationInterval;
     private final Random rand;
     private int wave;
+    private boolean is_boss;
+
+    public void setIsboss(boolean is_bool) { is_boss = is_bool; }
+    public boolean getIsboss() { return is_boss; }
 
     public EnemyGenerator() {
         //this.lastGenerated = GameWorld.get().getCurrentTimeNanos();
@@ -36,6 +40,7 @@ public class EnemyGenerator {
         if (elapsed > generationInterval) {
             generateWave();
             lastGenerated = now;
+            if (wave % 10 == 0 && wave != 0) is_boss = true;
         }
     }
 
@@ -51,7 +56,7 @@ public class EnemyGenerator {
 
         }
         msg += " Interval=" + (generationInterval / 1_000_000_000.0);
-        Log.d(TAG, msg);
+        //Log.d(TAG, msg);
     }
 
     private static int[] DIFFS = {
@@ -79,7 +84,4 @@ public class EnemyGenerator {
         return level;
     }
 
-    public void resetWave() {
-        this.wave = 0;
-    }
 }

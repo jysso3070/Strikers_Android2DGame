@@ -31,13 +31,16 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
     private int life;
     private Paint paint = new Paint();
     private int score;
-    private float targetX, targetY;
+    private float targetX;
     private int att_count;
     private int move_count = 0;
     private int y_range;
 
+    public float getX() { return x; }
+    public float getY() { return y; }
+
     private Enemy(){
-        Log.d(TAG, "new: " + this);
+        //Log.d(TAG, "new: " + this);
 
     }
     //private static ArrayList<Enemy> recyclePool = new ArrayList<>();
@@ -91,7 +94,7 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
         y += (speed * gw.getTimeDiffInSecond()) / (1 + y_range);
         // 공격 타이밍일 경우, 몬스터가 플레이어를 향해 총알 발사
         if (att_count == 0) {
-            fire(targetX, targetY);
+            fire();
             att_count = 50 + rand.nextInt(100);
         }
         if (y > gw.getBottom() + height) {
@@ -101,7 +104,7 @@ public class Enemy implements GameObject, BoxCollidable, Recyclable {
         --att_count;
     }
 
-    private void fire(float tx, float ty) {
+    private void fire() {
         EnemyMissile em = new EnemyMissile(x, y, 10);
         MainWorld.get().add(MainWorld.Layer.enemyMissile, em);
     }

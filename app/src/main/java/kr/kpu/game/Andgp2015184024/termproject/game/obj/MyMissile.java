@@ -60,11 +60,23 @@ public class MyMissile implements GameObject, BoxCollidable, Recyclable {
             Enemy enemy = (Enemy) e;
             if( CollisionHelper.collides(enemy, this)){
                 enemy.decreaseLife(this.power);
+                gw.add(MainWorld.Layer.effect, new AttackSprite(enemy.getX(), enemy.getY()));
                 toBeDeleted = true;
                 break;
             }
         }
 
+        // Boss와 충돌처리
+        ArrayList<GameObject> bosses = gw.objectsAt(MainWorld.Layer.enemyBoss);
+        for (GameObject b : bosses) {
+            Boss boss = (Boss) b;
+            if (CollisionHelper.collides(boss, this)) {
+                boss.decreaseLife(this.power);
+                gw.add(MainWorld.Layer.effect, new AttackSprite(x, y));
+                toBeDeleted = true;
+                break;
+            }
+        }
 
         if(!toBeDeleted){
             if(y < gw.getTop() - halfSize){

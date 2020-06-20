@@ -66,7 +66,7 @@ public class MainWorld extends GameWorld {
 
 
     public enum Layer{
-        bg, missile, enemy, enemyBoss, player, ui, enemyMissile, COUNT
+        bg, missile, enemy, enemyBoss, player, ui, enemyMissile, effect, COUNT
     }
 
     protected int getLayerCount(){
@@ -127,11 +127,6 @@ public class MainWorld extends GameWorld {
         add(Layer.ui, scoreObject);
         hpObject = new HpObject(25, 25, R.mipmap.hpicon_2, myPlane.getMaxHp());
         add(Layer.ui, hpObject);
-
-        // Boss Monster
-        boss = new Boss((rect.right / 2) - 200, 50);
-        add(Layer.enemyBoss, boss);
-
 
         startGame();
     }
@@ -227,6 +222,13 @@ public class MainWorld extends GameWorld {
         super.update(frameTimeNanos);
 
         enemyGenerator.update();
+
+        // Boss Monster
+        if (enemyGenerator.getIsboss()) {
+            boss = new Boss((rect.right / 2) - 200, -500);
+            add(Layer.enemyBoss, boss);
+            enemyGenerator.setIsboss(false);
+        }
     }
 
     @Override
