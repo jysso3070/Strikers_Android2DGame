@@ -23,6 +23,7 @@ public class MyPlane implements GameObject, BoxCollidable {
     private final int halfSize;
     private final int height;
     private final int width;
+    private final FrameAnimationBitmap fab_hit;
     private GyroSensor gyroSensor;
     private float x;
     private float y;
@@ -52,6 +53,7 @@ public class MyPlane implements GameObject, BoxCollidable {
         this.MaxHP = 4;
         this.currentHP = MaxHP;
         fab = new FrameAnimationBitmap(R.mipmap.jet2, 3, 6);
+        fab_hit = new FrameAnimationBitmap(R.mipmap.jet2_hit2, 3, 6);
         halfSize = fab.getHeight() / 2;
         this.height = fab.getHeight();
         this.width = fab.getWidth();
@@ -194,7 +196,12 @@ public class MyPlane implements GameObject, BoxCollidable {
 
     @Override
     public void draw(Canvas canvas) {
-        fab.draw(canvas, x, y);
+        if(collisionCooltimeFlag){
+            fab_hit.draw(canvas, x, y);
+        }
+        else{
+            fab.draw(canvas, x, y);
+        }
 
     }
 
