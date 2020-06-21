@@ -52,7 +52,7 @@ public class MainWorld extends GameWorld {
 
     public static void create() {
         if(singleton != null){
-            Log.e(TAG, "object already, created");
+//            Log.e(TAG, "object already, created");
         }
         singleton = new MainWorld();
     }

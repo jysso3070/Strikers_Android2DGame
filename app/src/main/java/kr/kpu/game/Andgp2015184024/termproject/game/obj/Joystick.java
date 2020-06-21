@@ -54,7 +54,7 @@ public class Joystick implements GameObject {
         sbmp.draw(canvas, x, y, paint);
         if (down) {
 //            Log.d(TAG, "angle = " + angle + " dx=" + dx + " dy=" + dy);
-            System.out.println("anlgle" + angle);
+//            System.out.println("anlgle" + angle);
             sbmp.draw(canvas, x + dx, y + dy, paint);
         }
     }

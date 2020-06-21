@@ -97,7 +97,7 @@ public class GameView extends View {
         gameWorld.update(frameTimeNanos);
         count++;
         if(timer.done()){
-            Log.d(TAG, "Frames per second = "+ (float)(count / FRAME_RATE_SECONDS));
+//            Log.d(TAG, "Frames per second = "+ (float)(count / FRAME_RATE_SECONDS));
             count = 0;
             timer.reset();
         }

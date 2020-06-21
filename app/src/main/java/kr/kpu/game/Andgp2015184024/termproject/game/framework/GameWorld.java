@@ -25,7 +25,7 @@ public abstract class GameWorld {
     public static GameWorld get(){
         if(singleton == null){
 //            singleton = new GameWorld();
-            Log.e(TAG, "Gameworld subclass not created");
+//            Log.e(TAG, "Gameworld subclass not created");
         }
         return singleton;
     }

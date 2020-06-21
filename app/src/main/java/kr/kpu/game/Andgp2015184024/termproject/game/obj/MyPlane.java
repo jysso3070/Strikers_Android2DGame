@@ -108,7 +108,7 @@ public class MyPlane implements GameObject, BoxCollidable {
             ArrayList<GameObject> enemies = gw.objectsAt(MainWorld.Layer.enemy); // 적유닛 충돌처리
             for (GameObject e : enemies) {
                 if (!(e instanceof Enemy)) {
-                    Log.e(TAG, "object at Layer.enemy is: " + e);
+//                    Log.e(TAG, "object at Layer.enemy is: " + e);
                     continue;
                 }
                 Enemy enemy = (Enemy) e;
@@ -118,7 +118,7 @@ public class MyPlane implements GameObject, BoxCollidable {
                     gw.add(MainWorld.Layer.effect, new AttackSprite(x, y));
                     cooltimeStartTime = gw.getCurrentTimeNanos() / 1_000_000_000;
                     collisionCooltimeFlag = true;
-                    Log.e(TAG, "object collision with enemy: " + e);
+//                    Log.e(TAG, "object collision with enemy: " + e);
                     break;
                 }
             }
@@ -127,13 +127,13 @@ public class MyPlane implements GameObject, BoxCollidable {
             ArrayList<GameObject> enemyMissiles = gw.objectsAt(MainWorld.Layer.enemyMissile); //적 미사일 충돌처리
             for (GameObject em : enemyMissiles) {
                 if (!(em instanceof EnemyMissile)) {
-                    Log.e(TAG, "object at Layer.enemyMissile is: " + em);
+//                    Log.e(TAG, "object at Layer.enemyMissile is: " + em);
                     continue;
                 }
                 EnemyMissile enemyMissile = (EnemyMissile) em;
                 if (CollisionHelper.collides(enemyMissile, this)) {
 //                gw.endGame();
-                    Log.e(TAG, "object collision with enemyMissile: " + em);
+//                    Log.e(TAG, "object collision with enemyMissile: " + em);
                     decreaseMyHp();
                     gw.decreaseHpObject();
                     gw.add(MainWorld.Layer.effect, new AttackSprite(x, y));
