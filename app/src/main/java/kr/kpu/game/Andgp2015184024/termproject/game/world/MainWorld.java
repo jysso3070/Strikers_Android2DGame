@@ -81,33 +81,6 @@ public class MainWorld extends GameWorld {
         Resources res = view.getResources();
         GameWorld gw = GameWorld.get();
         gameOverFlag = false;
-//        objects = new ArrayList<>();
-
-//        Random rand = new Random();
-//        for(int i = 0; i < BALL_COUNT; i++){
-//            float x = rand.nextFloat() * 1000;
-//            float y = rand.nextFloat() * 1000;
-//            float dx = (float) (rand.nextFloat() * 50.0 - 25.0);
-//            float dy = (float) (rand.nextFloat() *50.0 - 25.0);
-//            add(Layer.missile, new Ball(x, y ,dx, dy));
-//        }
-
-//        float playerY = rect.bottom - 100;
-//        plane = new Plane(500, playerY, 0.0f, 0.0f);
-//        add(Layer.player, plane);
-//        fighter = new Fighter(200, 700);
-//        add(Layer.player, fighter);
-
-
-//        highScoreObject = new ScoreObject(800, 100, R.mipmap.number_24x32);
-//        add(Layer.ui, highScoreObject);
-
-
-//        add(Layer.bg, new TileScrollBackground(R.raw.earth,
-//                TileScrollBackground.Orientation.vertical, -25));
-//        add(Layer.bg, new ImageScrollBackground(R.mipmap.clouds,
-//                ImageScrollBackground.Orientation.vertical, 100));
-
 
         add(Layer.bg, new ImageScrollBackground(R.mipmap.stage1,
                 ImageScrollBackground.Orientation.vertical, 25));
