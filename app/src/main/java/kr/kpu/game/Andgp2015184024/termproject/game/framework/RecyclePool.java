@@ -10,17 +10,17 @@ public class RecyclePool {
     }
 
     public void add(Object obj){
-        Class clazz = obj.getClass();
-    ArrayList<Object> list = map.get(clazz);
+        Class objClass = obj.getClass();
+    ArrayList<Object> list = map.get(objClass);
         if(list == null){
         list = new ArrayList<>();
-        map.put(clazz, list);
+        map.put(objClass, list);
     }
         list.add(obj);
 }
 
-    public  Object get(Class clazz){
-        ArrayList<Object> list = map.get(clazz);
+    public  Object get(Class objClass){
+        ArrayList<Object> list = map.get(objClass);
         if(list == null){
             return null;
         }

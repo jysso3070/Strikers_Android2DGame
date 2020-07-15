@@ -6,10 +6,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import java.lang.String;
 
 public class GyroSensor {
-    private static final double NS2S = 1.0 / 1_000_000_000.0;
+    private static final double nanosecTosec = 1.0 / 1_000_000_000.0;
     private static final double RAD_TO_DEGREE = 180.0 / Math.PI;
 
     private static GyroSensor singleton;
@@ -85,12 +84,10 @@ public class GyroSensor {
             timestamp = event.timestamp;
             return;
         }
-        double dt = (event.timestamp - timestamp) * NS2S;
+        double dt = (event.timestamp - timestamp) * nanosecTosec;
         roll += event.values[0] * dt;
         pitch += event.values[1] * dt;
         yaw += event.values[2] * dt;
-
-
         timestamp = event.timestamp;
     }
 

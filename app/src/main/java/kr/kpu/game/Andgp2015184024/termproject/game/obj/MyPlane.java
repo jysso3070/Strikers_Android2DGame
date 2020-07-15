@@ -2,7 +2,6 @@ package kr.kpu.game.Andgp2015184024.termproject.game.obj;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ public class MyPlane implements GameObject, BoxCollidable {
     private final int collisionCooltime = 2;
 
     private boolean gyroOn = false;
-    private static final int G_SPEED = 50;
+    private static final int GYRO_SPEED = 50;
     private float dx;
     private float dy;
     private Double stickAngle;
@@ -87,8 +86,8 @@ public class MyPlane implements GameObject, BoxCollidable {
 
         if(gyroOn){
             float seconds = GameWorld.get().getTimeDiffInSecond();
-            this.dx = gyroSensor.getPitchDegree() * G_SPEED;
-            this.dy = gyroSensor.getRollDegree() * G_SPEED;
+            this.dx = gyroSensor.getPitchDegree() * GYRO_SPEED;
+            this.dy = gyroSensor.getRollDegree() * GYRO_SPEED;
             this.x += dx * seconds;
             this.y += dy * seconds;
         }
