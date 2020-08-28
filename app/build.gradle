@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "kr.kpu.game.Andgp2015184024.termproject"
+        applicationId "kr.jysso3070.game.Andgp.strikers5491"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kr.kpu.game.Andgp2015184024.termproject">
+    package="kr.jysso3070.game.Andgp.strikers5491">
 
     <application
         android:allowBackup="true"
@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.HighscoreActivity"></activity>
-        <activity android:name=".ui.activity.TitleActivity">
+        <activity android:name="kr.jysso3070.game.Andgp.strikers5491.ui.activity.HighscoreActivity"></activity>
+        <activity android:name="kr.jysso3070.game.Andgp.strikers5491.ui.activity.TitleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="kr.jysso3070.game.Andgp.strikers5491.ui.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
 
