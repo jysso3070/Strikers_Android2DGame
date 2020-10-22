@@ -4,29 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RecyclePool {
-    private HashMap<Class, ArrayList<Object>> map = new HashMap<>();
+    private HashMap<Class, ArrayList<Object>> objectsPool = new HashMap<>();
 
-    public RecyclePool() {
-    }
+    public RecyclePool() { }
 
     public void add(Object obj){
         Class classObj = obj.getClass();
-    ArrayList<Object> list = map.get(classObj);
-        if(list == null){
-        list = new ArrayList<>();
-        map.put(classObj, list);
-    }
-        list.add(obj);
+        ArrayList<Object> objectsList = objectsPool.get(classObj);
+        if(objectsList == null){
+            objectsList = new ArrayList<>();
+            objectsPool.put(classObj, objectsList);
+        }
+        objectsList.add(obj);
 }
 
-    public  Object get(Class objClass){
-        ArrayList<Object> list = map.get(objClass);
-        if(list == null){
-            return null;
-        }
-        if(list.size() == 0){
-            return null;
-        }
-        return list.remove(0);
+    public Object get(Class objClass){
+        ArrayList<Object> objectsList = objectsPool.get(objClass);
+        if(objectsList == null){ return null; }
+        if(objectsList.size() == 0){ return null; }
+        return objectsList.remove(0);
     }
 }
